@@ -44,7 +44,7 @@ void startCameraServer();
 void setupLedFlash(int pin);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(2000000);
   Serial.setDebugOutput(true);
   Serial.println();
 
@@ -133,29 +133,16 @@ void setup() {
 #if defined(LED_GPIO_NUM)
   setupLedFlash(LED_GPIO_NUM);
 #endif
-
-  // WiFi.begin(ssid, password);
-  // WiFi.setSleep(false);
-
-  // while (WiFi.status() != WL_CONNECTED) {
-  //   delay(500);
-  //   Serial.print(".");
-  // }
-  // Serial.println("");
-  // Serial.println("WiFi connected");
-
-  // startCameraServer();
-
-  // Serial.print("Camera Ready! Use 'http://");
-  // Serial.print(WiFi.localIP());
-  // Serial.println("' to connect");
+  
 }
 
 void loop() {
   // Do nothing. Everything is done in another task by the web server
   fb = esp_camera_fb_get();
+  // Serial.write(fb->len);
+  Serial.print("Start New One");
   for(int i=0;i<fb->len;i++)
-  Serial.print((char)fb->buf[i]);
+    Serial.write((char)fb->buf[i]);
   esp_camera_fb_return(fb);
-  delay(1000);
+  // delay(1000);
 }
