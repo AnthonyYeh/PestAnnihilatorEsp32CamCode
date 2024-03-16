@@ -1,4 +1,5 @@
 import re
+import traceback
 
 import serial
 import cv2
@@ -17,13 +18,13 @@ while True:
     cc = ser.read_all()
     buf += cc
 
-    first_strip = buf.find(SOI)
-    if first_strip != -1:
-        end_strip = first_strip + buf[first_strip:].find(EOI)
-        if end_strip != -1:
-            out_img_bytes = buf[first_strip: end_strip + len(EOI)]
+    start_loc = buf.find(SOI)
+    if start_loc != -1:
+        end_loc = start_loc + buf[start_loc:].find(EOI)
+        if end_loc != -1:
+            out_img_bytes = buf[start_loc: end_loc + len(EOI)]
             
-            buf = buf[end_strip + len(EOI):]
+            buf = buf[end_loc + len(EOI):]
 
             nparr = np.fromstring(out_img_bytes, np.uint8)
             img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -32,6 +33,7 @@ while True:
                 if cv2.waitKey(1) == ord('q'):
                     break
             except cv2.error:
+                traceback.print_exception()
                 pass
 
 cv2.destroyAllWindows()
