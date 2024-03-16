@@ -140,7 +140,7 @@ void loop() {
   // Do nothing. Everything is done in another task by the web server
   fb = esp_camera_fb_get();
   // Serial.write(fb->len);
-  Serial.print("Start New One");
+  // Serial.print("Start New One");
   for(int i=0;i<fb->len;i++)
     Serial.write((char)fb->buf[i]);
   esp_camera_fb_return(fb);
