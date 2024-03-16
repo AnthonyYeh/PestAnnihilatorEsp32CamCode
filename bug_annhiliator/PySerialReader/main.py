@@ -19,7 +19,7 @@ while True:
 
     first_strip = buf.find(SOI)
     if first_strip != -1:
-        end_strip = buf[first_strip:].find(EOI)
+        end_strip = first_strip + buf[first_strip:].find(EOI)
         if end_strip != -1:
             out_img_bytes = buf[first_strip: end_strip + len(EOI)]
             
